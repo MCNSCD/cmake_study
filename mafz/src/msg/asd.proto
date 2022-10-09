@@ -1,0 +1,7 @@
+syntax = "proto2";
+package pt2;
+message asd {
+    required string a = 1;
+    required int32 s = 2;
+    required int32 d = 3;
+}

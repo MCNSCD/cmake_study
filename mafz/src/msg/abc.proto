@@ -1,0 +1,7 @@
+syntax = "proto2";
+package pt;
+message abc {
+    required string a = 1;
+    required int32 b = 2;
+    required int32 c = 3;
+}

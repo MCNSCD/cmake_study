@@ -1,0 +1,6 @@
+CMAKE_MINIMUM_REQUIRED(VERSION 2.8)
+PROJECT(proto LANGUAGES CXX)
+
+add_subdirectory(third_party)
+ADD_SUBDIRECTORY(client)
+ADD_SUBDIRECTORY(server)
