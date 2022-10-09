@@ -2,6 +2,7 @@ set(BUILD_GLOG_EXAMPLES FALSE)
 set(GLOG_PREFIX glog)
 set(GLOG_VERSION "0.6.0")
 set(GLOG_URL https://github.com/google/glog/archive/refs/tags/v${GLOG_VERSION}.tar.gz)
+set(GLOG_URL_MD5 "c98a6068bc9b8ad9cebaca625ca73aa2")
 
 if (WIN32)
     set(GLOG_MAKE gmake)
@@ -15,23 +16,31 @@ if (BUILD_GLOG_EXAMPLES)
     set(GLOG_STEP_EXAMPLES ${GLOG_PREFIX}_examples)
 endif (BUILD_GLOG_EXAMPLES)
 
+option(FOUND_Ninja ON)
+if (FOUND_Ninja)
+    set(CMAKE_GENERATOR_STRING "Ninja")
+else(FOUND_Ninja)
+    set(CMAKE_GENERATOR_STRING "Unix Makefiles")
+endif(FOUND_Ninja)
+
 ExternalProject_Add(${GLOG_PREFIX}
     PREFIX ${GLOG_PREFIX}
     URL ${GLOG_URL}
     URL_MD5 ${GLOG_URL_MD5}
-    CONFIGURE_COMMAND ""
-    BUILD_COMMAND "${GLOG_MAKE} -j${NCPU} glog_build_prefix=${GLOG_PREFIX}"
+    # CONFIGURE_COMMAND ""
+    CMAKE_GENERATOR "${CMAKE_GENERATOR}"
+    BUILD_COMMAND ${MAKE}
     BUILD_IN_SOURCE 1
     INSTALL_COMMAND ""
     LOG_DOWNLOAD 1
     LOG_BUILD 1
-    STEP_TARGETS ${GLOG_PREFIX}_info ${GLOG_STEP_EXAMPLES}
+    STEP_TARGETS ${GLOG_PREFIX} ${GLOG_STEP_EXAMPLES}
 )
 
 ExternalProject_Get_Property(${GLOG_PREFIX} SOURCE_DIR)
 message(STATUS "Source directory of ${GLOG_PREFIX} ${SOURCE_DIR}")
 ExternalProject_Add_Step(${GLOG_PREFIX} ${GLOG_PREFIX}_info
-    COMMAND ${GLOG_MAKE} info glog_build_prefix=${GLOG_PREFIX}
+    COMMAND ${MAKE}
     DEPENDEES build
     WORKING_DIRECTORY ${SOURCE_DIR}
     LOG 1
