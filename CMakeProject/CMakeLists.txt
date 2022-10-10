@@ -28,15 +28,14 @@ set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS}  -fpic -pthread")
 # set(CMAKE_C_FLAGS "-DEMIT_ASN_DEBUG=0 ${CMAKE_C_FLAGS}")
 set(CMAKE_C_FLAGS "-DASN_EMIT_DEBUG=0 ${CMAKE_C_FLAGS}")
 
+list (APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 
-set(third_party_path ${CMAKE_CURRENT_SOURCE_DIR}/third_party)
+find_package(glog REQUIRED)
+find_package(gflags REQUIRED)
+find_package(Protobuf 3 REQUIRED)
 
-include(CheckIncludeFile)
-include(CheckIncludeFileCXX)
-include(CheckIncludeFiles)
-include(ExternalProject)
-include(third_party/glog.cmake)
-
-add_subdirectory(third_party)
+add_executable(test_glog src/test.cpp)
+target_link_libraries(test_glog glog::glog)
+# add_subdirectory(third_party)
 # 引入源码目录
-# add_subdirectory(src)
+add_subdirectory(src)
