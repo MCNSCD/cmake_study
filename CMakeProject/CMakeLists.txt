@@ -32,7 +32,7 @@ list (APPEND CMAKE_MODULE_PATH ${CMAKE_CURRENT_SOURCE_DIR}/cmake)
 
 find_package(glog REQUIRED)
 find_package(gflags REQUIRED)
-find_package(Protobuf 3 REQUIRED)
+find_package(Protobuf 3.18 REQUIRED)
 
 add_executable(test_glog src/test.cpp)
 target_link_libraries(test_glog glog::glog)
